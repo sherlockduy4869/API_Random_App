@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Place;
+
+use App\Http\Resources\PlaceResource;
+
 class PlaceController extends Controller
 {
     /**
@@ -14,7 +18,9 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        //
+        $place_list = Place::all();
+
+        return new PlaceResource($place_list);
     }
 
     /**
@@ -24,7 +30,7 @@ class PlaceController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,7 +41,16 @@ class PlaceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $new_place = new Place();
+
+        $new_place->place_name = $request->place_name;
+        
+        $new_place->save();
+
+        return json_encode([
+            "status" => true,
+            "message" => "Add new place successfully !"
+        ]);
     }
 
     /**
@@ -80,6 +95,8 @@ class PlaceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $place_delete = Place::deleted($id);
+
+        $place_delete->delete();
     }
 }

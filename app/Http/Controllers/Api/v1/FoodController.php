@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Http\Resources\FoodResource;
+use App\Models\Food;
+
 class FoodController extends Controller
 {
     /**
@@ -14,7 +17,9 @@ class FoodController extends Controller
      */
     public function index()
     {
-        //
+        $food_list = Food::all();
+
+        return new FoodResource($food_list);
     }
 
     /**
@@ -35,7 +40,16 @@ class FoodController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $new_food = new Food();
+
+        $new_food->food_name = $request->food_name;
+        
+        $new_food->save();
+
+        return json_encode([
+            "status" => true,
+            "message" => "Add new food successfully !"
+        ]);
     }
 
     /**
@@ -80,6 +94,8 @@ class FoodController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $food_delete = Food::deleted($id);
+
+        $food_delete->delete();
     }
 }
