@@ -93,10 +93,8 @@ class PlaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Place $place)
     {
-        $place_delete = Place::deleted($id);
-
-        $place_delete->delete();
+        $place->delete();
     }
 }

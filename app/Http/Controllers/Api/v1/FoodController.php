@@ -92,10 +92,8 @@ class FoodController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Food $food)
     {
-        $food_delete = Food::deleted($id);
-
-        $food_delete->delete();
+        $food->delete();
     }
 }
